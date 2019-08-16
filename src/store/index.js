@@ -5,9 +5,9 @@ import * as actions from "../actions";
 
 let user = {
     url: null,
-    username: "Nouzan",
-    token: "asfggg",
-    status: 'INITIAL',
+    username: null,
+    token: null,
+    status: 'UNAUTHED',
     activities: [
         {
             date: new Date("2019.6.11"),
@@ -65,12 +65,19 @@ let user = {
     ]
 };
 
+const save = JSON.parse(localStorage.getItem('user'))
+if (save) {
+    user.url = save.url
+    user.token = save.token
+    user.status = 'AUTHED'
+}
+
 const initialState = {
     status: 'INITIAL',
     message: [],
     user: user,
-    users: [],
-    activities: [],
+    users: {},
+    activities: {},
     years: [
         {
             begin: new Date("2019.8.25"),
