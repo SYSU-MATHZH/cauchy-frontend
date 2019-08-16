@@ -25,7 +25,9 @@ export const login = async (store, username, password, remember=false) => {
                         token: data.token,
                         status: "AUTHED"
                     };
-                    store.setState({ status, user });
+                    const message = `登录成功！`
+                    const message2 = `成功登录！`
+                    store.setState({ status, user, message: [...store.state.message, message, message2] });
                     if (remember) {
                         const save = {
                             url: data.url,

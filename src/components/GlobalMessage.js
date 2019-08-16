@@ -4,21 +4,31 @@ import Snackbar from '@material-ui/core/Snackbar';
 
 import useGlobal from '../store'
 
+const SHOWINTERVAL = 1500
+
 const GlobalMessage =  () => {
     const [global, actions] = useGlobal()
     const [open, setOpen] = useState(false)
     const [message, setMessage] = useState('')
 
     useEffect(() => {
-        if (global.message.length > 0) {
+        if (global.message.length > 0 && !open) {
+            // console.log(`showing message ${global.message[0]}`)
             setMessage(global.message[0])
             setOpen(true)
         }
+
     }, [global.message])
 
-    const handleClose = () => {
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return
+        }
         setOpen(false)
-        actions.popMessage()
+        if (global.message.length > 0) {
+            actions.popMessage()
+        }
+        // console.log('close')
     }
 
     return (
@@ -26,6 +36,7 @@ const GlobalMessage =  () => {
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         open={open}
         onClose={handleClose}
+        autoHideDuration={ SHOWINTERVAL }
         ContentProps={{
           'aria-describedby': 'message-id',
         }}
