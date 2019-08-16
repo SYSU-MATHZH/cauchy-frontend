@@ -5,6 +5,8 @@ import './App.css';
 import Routes from './routes'
 import { blue, indigo } from '@material-ui/core/colors'
 
+import GlobalMessage from './components/GlobalMessage'
+
 const theme = createMuiTheme({
   palette: {
     secondary: {
@@ -29,6 +31,7 @@ class App extends Component {
     return (
       <div>
         <ThemeProvider theme={theme}>
+          <GlobalMessage />
           <Routes />
         </ThemeProvider>
       </div>
