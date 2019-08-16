@@ -127,10 +127,6 @@ const Topbar = (props) => {
 
   }
 
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  })
-
   return (
     <AppBar position="absolute" color="default" className={classes.appBar}>
       <Toolbar>
