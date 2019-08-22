@@ -5,7 +5,7 @@ const Menu = [
   },
   {
     label: "我的活动",
-    pathname: "/activities"
+    pathname: "/user-dashboard"
   },
   {
     label: "控制台",

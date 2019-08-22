@@ -112,7 +112,7 @@ const Topbar = (props) => {
     if(props.currentPath === '/home') {
       return 0
     }
-    if(props.currentPath === '/activities') {
+    if(props.currentPath === '/user-dashboard') {
       return 1
     }
     if(props.currentPath === '/dashboard') {

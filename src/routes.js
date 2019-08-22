@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route, HashRouter, Switch, Redirect } from 'react-router-dom'
-import Activities from './components/Activities'
+import Activities from './components/UserDashboard'
 import Dashboard from './components/Dashboard'
 import Wizard from './components/Wizard'
 import Cards from './components/Cards'
@@ -10,6 +10,8 @@ import SignIn from './components/SignIn'
 import ScrollToTop from './components/ScrollTop'
 
 import useGlobal from './store'
+import UserDashboard from './components/UserDashboard';
+import UserActivity from './components/UserActivity';
 
 const PrivateRoute = ({ match, component: Component, ...rest }) => {
   const [globalState, globalActions] = useGlobal();
@@ -37,7 +39,8 @@ export default props => (
         <Switch>
           <PrivateRoute exact path='/' component={ Main } />
           <Route exact path='/signin' component={ SignIn }/>
-          <PrivateRoute exact path='/activities' component={ Activities } />
+          <PrivateRoute exact path='/user-dashboard' component={ UserDashboard } />
+          <PrivateRoute exact path='/user-activity' component={ UserActivity } />
           <PrivateRoute exact path='/dashboard' component={ Dashboard } />
           <Route exact path='/signup' component={ Signup } />
           <Route exact path='/wizard' component={ Wizard } />

@@ -26,8 +26,7 @@ export const login = async (store, username, password, remember=false) => {
                         status: "AUTHED"
                     };
                     const message = `登录成功！`
-                    const message2 = `成功登录！`
-                    store.setState({ status, user, message: [...store.state.message, message, message2] });
+                    store.setState({ status, user, message: [...store.state.message, message] });
                     if (remember) {
                         const save = {
                             url: data.url,
@@ -93,8 +92,9 @@ export const logout = async store => {
 
     } finally {
         const user = { ...store.state.user, status: 'UNAUTHED', token: null };
+        const message = `已登出`
         localStorage.removeItem('user')
-        store.setState({ user });
+        store.setState({ message: [...store.state.message, message], user });
     }
 }
 
