@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
     },
   }));
 
-const DURATION = 1500
+const DURATION = 500
 
 const GlobalMessage =  () => {
     const [global, actions] = useGlobal()

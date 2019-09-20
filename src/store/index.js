@@ -13,31 +13,41 @@ let user = {
             date: new Date("2019.6.11"),
             name: "海边捡垃圾",
             group: "16级应数班",
+            description: "一个学术讲座",
             type: "公益时",
+            status: "FINISHED",
             amount: 10
         }, {
             date: new Date("2019.6.10"),
             name: "山上捡垃圾",
             group: "16级应数班",
+            description: "一个学术讲座",
             type: "公益时",
+            status: "FINISHED",
             amount: 5
         }, {
             date: new Date("2019.6.9"),
             name: "学术讲座",
             group: "中珠数院",
+            description: "一个学术讲座",
             type: "第二课堂",
+            status: "FINISHED",
             amount: 8
         }, {
             date: new Date("2019.6.8"),
             name: "海边捡垃圾",
             group: "16级应数班",
+            description: "一个学术讲座",
             type: "公益时",
+            status: "FINISHED",
             amount: 2
         }, {
             date: new Date("2019.6.7"),
             name: "课外实践",
             group: "16级应数班",
+            description: "一个学术讲座",
             type: "第二课堂",
+            status: "FINISHED",
             amount: 5.5
         }, 
     ],
@@ -47,13 +57,45 @@ let user = {
             name: "海边捡垃圾",
             group: "16级应数班",
             type: "公益时",
+            status: "PENDING",
             amount: 10
         }, {
             date: new Date("2019.8.15"),
             name: "山上捡垃圾",
             group: "16级应数班",
             type: "公益时",
+            status: "PENDING",
             amount: 5
+        }
+    ],
+    unfinishedActivities: [
+        {
+            name: "学术讲座",
+            description: "一个学术讲座一个学术讲座一个学术讲座一个学术讲座一个学术讲座一个学术讲座一个学术讲座一个学术讲座一个学术讲座一个学术讲座",
+            group: "16级应数班",
+            type: "第二课堂",
+            status: "UNSIGNED",
+            date: new Date("2019.8.26"),
+            amount: null
+        }, {
+            name: "捡垃圾",
+            description: "一次捡垃圾活动",
+            group: "16级应数班",
+            type: "公益时",
+            status: "SIGNED",
+            date: new Date("2019.8.26"),
+            amount: null
+        }
+    ],
+    unstartedActivities: [
+        {
+            name: "志愿者",
+            description: "一次志愿服务",
+            group: "16级应数班",
+            type: "公益时",
+            status: "UNSTARTED",
+            date: new Date("2019.8.27"),
+            amount: null
         }
     ],
     pendingApplications: [

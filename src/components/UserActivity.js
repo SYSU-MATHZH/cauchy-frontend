@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import withStyles from '@material-ui/styles/withStyles';
 import { withRouter } from 'react-router-dom'
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -6,12 +6,23 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import Chip from '@material-ui/core/Chip'
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
+
 import Back from './common/UserBack';
+
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+
+import Card from './blueprint/Card';
+import Model from './blueprint/Model';
+
+import useGlobal from '../store';
+import { parseDate } from '../utils';
 
 const backgroundShape = require('../images/shape.svg');
 
@@ -91,8 +102,7 @@ const styles = theme => ({
     justifyContent: 'flex-end'
   },
   box: {
-    marginBottom: 40,
-    height: 65
+    marginBottom: 40
   },
   topInfo: {
     display: 'flex',
@@ -107,87 +117,54 @@ const styles = theme => ({
     marginTop: theme.spacing(2),
   },
   card: {
-    maxWidth: 345,
+    minWidth: 245,
   },
   media: {
     height: 140,
   },
-})
+  date: {
+    marginTop: -5,
+    marginBottom: 12,
+  },
+  type: {
 
-const getSteps = () => {
-  return [
-    'User',
-    'Signin',
-    'Permission'
-  ];
-}
+  },
+  topBar: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+})
 
 const UserActivity = props => {
 
   const { classes } = props;
-  const activities = [
-    {
-      name: "学术讲座",
-      description: "一个学术讲座",
-      type: "第二课堂",
-      status: "UNSIGNED"
-    }, {
-      name: "捡垃圾",
-      description: "一次捡垃圾活动",
-      type: "公益时",
-      status: "SIGNED"
-    }, {
-      name: "志愿者",
-      description: "一次志愿服务",
-      type: "公益时",
-      status: "UNSTARTED"
-    }, {
-      name: "志愿者",
-      description: "一次志愿服务",
-      type: "公益时",
-      status: "UNSTARTED"
-    }, {
-      name: "志愿者",
-      description: "一次志愿服务",
-      type: "公益时",
-      status: "UNSTARTED"
-    }, {
-      name: "志愿者",
-      description: "一次志愿服务",
-      type: "公益时",
-      status: "UNSTARTED"
-    }
-  ]
+  const [global, _] = useGlobal()
+  const { user } = global
 
-  const ActivityCard = activity => (
-    <Grid item xs={12} md={4}>
-    <Card className={classes.card}>
-      <CardActionArea>
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            { activity.name }
-          </Typography>
-          <Typography gutterBottom>
-            <Chip size="small" label={ activity.type } color="secondary"/>
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            { activity.description }
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <div className={classes.alignRight}>
-        <Button size="small" color="primary" disabled={ activity.status !== 'UNSIGNED' }>
-        { activity.status === 'UNSTARTED' ? '未开始' : activity.status === 'SIGNED' ? '已签到' : '签到' }
-        </Button>
-        <Button size="small" color="primary">
-          查看详情
-        </Button>
-        </div>
-      </CardActions>
-    </Card>
-    </Grid>
-  )
+  const [activityMenu, setActivityMenu] = useState({
+    anchorEl: null,
+    type: '所有类别'
+  })
+
+  // 活动历程菜单
+  const openActivityMenu = (event) => {
+    setActivityMenu({ ...activityMenu, anchorEl: event.currentTarget });
+  }
+
+  const onActivityMenuClick = (type) => type ? () => {
+    setActivityMenu({ type, anchorEl: null });
+  } : () => {
+    setActivityMenu({ ...activityMenu, anchorEl: null });
+  }
+
+  const ActivityCard = activity => {
+    return (
+      <Grid item xs={4}>
+        <Model classes={ classes } data={activity} Card={Card} Paper={Card}/>
+      </Grid>
+    )
+  }
 
   return (
     <React.Fragment>
@@ -201,22 +178,35 @@ const UserActivity = props => {
                 <Typography variant="h4" gutterBottom>全部活动</Typography>
               </div>
           </Grid> */}
+          <>
           <Grid item xs={12}>
               <div className={classes.block}>
-                <Typography variant="h6" gutterBottom>未开始或进行中的活动</Typography>
+                <Typography variant="h6" gutterBottom>进行中的活动</Typography>
                 <Typography variant="body1">
                   对于正在进行的活动，你可以在这里进行签到
                 </Typography>
               </div>
           </Grid>
-            { activities.map(ActivityCard) }
-            <Grid item xs={12}>
+          { user.unfinishedActivities.map(ActivityCard) }
+          </>
+          <>
+          <Grid item xs={12}>
               <div className={classes.block}>
-                <Typography variant="h6" gutterBottom>已结束的活动</Typography>
+                <Typography variant="h6" gutterBottom>即将开始的活动</Typography>
                 <Typography variant="body1">
-                  已结束的或是提交了认定申请的活动会在这里显示
+                  这里是你已报名的将要参加活动
                 </Typography>
               </div>
+          </Grid>
+          { user.unstartedActivities.map(ActivityCard) }
+          </>
+          <Grid item xs={12}>
+            <div className={classes.block}>
+              <Typography variant="h6" gutterBottom>已结束的活动</Typography>
+              <Typography variant="body1">
+                已结束的或是提交了认定申请的活动会在这里显示
+              </Typography>
+            </div>
           </Grid>
             <Grid container item xs={12}>
               <Grid item xs={12}>
@@ -241,12 +231,59 @@ const UserActivity = props => {
                 <Paper className={classes.paper}>
                   <div>
                     <div className={classes.box}>
+                    <div className={classes.topBar} >
+                      <div>
                       <Typography color='secondary' gutterBottom>
                         已认定的活动
-                          </Typography>
+                      </Typography>
                       <Typography variant="body1" gutterBottom>
                         这是你已经获得认定了的活动
-                          </Typography>
+                      </Typography>
+                      </div>
+                      <div>
+                        <Button size="small" variant="dropdown" className={classes.outlinedButtom} onClick={openActivityMenu}>
+                          {activityMenu.type}
+                        </Button>
+                        <Menu
+                          id="simple-menu"
+                          anchorEl={activityMenu.anchorEl}
+                          keepMounted
+                          open={Boolean(activityMenu.anchorEl)}
+                          onClose={onActivityMenuClick(null)}
+                        >
+                          <MenuItem className={classes.menu} onClick={onActivityMenuClick('所有类别')}>所有类别</MenuItem>
+                          <MenuItem className={classes.menu} onClick={onActivityMenuClick('公益时')}>公益时</MenuItem>
+                          <MenuItem className={classes.menu} onClick={onActivityMenuClick('第二课堂')}>第二课堂</MenuItem>
+                        </Menu>
+                      </div>
+                      </div>
+                      <React.Fragment>
+                      <Table>
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>日期</TableCell>
+                            <TableCell>活动名称</TableCell>
+                            <TableCell>组织单位</TableCell>
+                            <TableCell>认定类型</TableCell>
+                            <TableCell align="right">分值</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {user.activities
+                            .filter(item => activityMenu.type === '所有类别' || item.type === activityMenu.type)
+                            .sort((a, b) => a.date < b.date ? 1 : a.date === b.date ? 0 : -1)
+                            .map(row => (
+                              <TableRow key={row.id}>
+                                <TableCell>{parseDate(row.date)}</TableCell>
+                                <TableCell>{row.name}</TableCell>
+                                <TableCell>{row.group}</TableCell>
+                                <TableCell>{row.type}</TableCell>
+                                <TableCell align="right">{row.amount}</TableCell>
+                              </TableRow>
+                            ))}
+                        </TableBody>
+                      </Table>
+                    </React.Fragment>
                     </div>
                     <div className={classes.alignRight}>
                       <Button color='primary' variant="contained" className={classes.actionButtom}>
