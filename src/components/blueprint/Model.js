@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
   }));
 
 const Model = (props) => {
-    const DURATION = 0.4
+    const DURATION = 0.3
     const classes = useStyles()
     const { data, Card, Paper } = props
     const [detail, setDetail] = useState(false)

@@ -1,4 +1,5 @@
 import React, { Component, useState, useEffect } from 'react';
+import clsx from 'clsx';
 import withStyles from '@material-ui/styles/withStyles';
 import { withRouter, Link } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -33,19 +34,18 @@ numeral.defaultFormat('0,000');
 
 const backgroundShape = require('../images/shape.svg');
 
+const drawerWidth = 240
+
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.grey['100'],
     overflow: 'hidden',
-    background: `url(${backgroundShape}) no-repeat`,
-    backgroundSize: 'cover',
-    backgroundPosition: '0 400px',
+    backgroundColor: "#f5f5f5",
     paddingBottom: 200
   },
   grid: {
     width: 1200,
-    margin: `0 ${theme.spacing(2)}px`,
+    padding: theme.spacing(3),
     [theme.breakpoints.down('sm')]: {
       width: 'calc(100% - 20px)'
     }
@@ -72,6 +72,26 @@ const styles = theme => ({
   topBar: {
     zIndex: theme.zIndex.drawer + 1,
     color: "#adfafdf"
+  },
+  drawer: {
+    display: 'block',
+    width: drawerWidth,
+    flexShrink: 0,
+  },
+  content: {
+    flexGrow: 1,
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: -drawerWidth,
+  },
+  contentShift: {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 0,
   },
   outlinedButtom: {
     textTransform: 'uppercase',
@@ -138,6 +158,7 @@ const styles = theme => ({
 
 
 const UserDashboard = (props) => {
+
   const [global, actions] = useGlobal()
   const { user, years } = global
 
@@ -210,33 +231,20 @@ const UserDashboard = (props) => {
   }
 
   if (!openDrawer) {
-    drawerStyle = {
-      width: 0
-    }
-    mainStyle = {
-      transitionDuration: '0.5s',
-      width: window.innerWidth
-
-    }
   } else {
-    drawerStyle = {
-      width: 0
-    }
-    mainStyle = {
-      width: 800,
-      transitionDuration: '0.5s'
-    }
   }
 
   return (
     <React.Fragment>
       <CssBaseline />
       <Topbar onDrawerButtonClick={onOpenDrawer} currentPath={currentPath} />
-      <Grid container alignItems="center" justify="center">
-      <Drawer style={drawerStyle} open={openDrawer}/>
-      <div style={mainStyle} className={classes.root}>
+      <Grid className={classes.root} container alignItems="center" justify="center">
+        <Drawer open={openDrawer}/>
+      <div className={clsx(classes.content, {
+          [classes.contentShift]: openDrawer,
+        })}>
         <Grid container justify="center" >
-          <Grid spacing={24} alignItems="center" justify="center" container className={classes.grid}>
+          <Grid className={classes.grid} spacing={24} alignItems="center" justify="center" container>
             <Grid item xs={12}>
               <div className={classes.topBar}>
                 <div className={classes.block}>
@@ -244,11 +252,6 @@ const UserDashboard = (props) => {
                   <Typography variant="body1">
                     你可以在这里管理你参与的所有活动
                 </Typography>
-                </div>
-                <div>
-                  <Button variant="outlined" className={classes.outlinedButtom}>
-                    查看帮助
-                </Button>
                 </div>
               </div>
             </Grid>
