@@ -22,8 +22,9 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-
-import Topbar from './Topbar';
+import Topbar from './layout/TopBar'
+//import Topbar from './Topbar';
+import Drawer from './layout/Drawer'
 import useGlobal from '../store';
 import { parseDate, parseSchoolYear, isInThisSchoolYear } from '../utils';
 
@@ -69,9 +70,8 @@ const styles = theme => ({
     paddingTop: theme.spacing(2)
   },
   topBar: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center'
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#adfafdf"
   },
   outlinedButtom: {
     textTransform: 'uppercase',
@@ -198,11 +198,43 @@ const UserDashboard = (props) => {
   const { classes } = props;
   const currentPath = props.location.pathname
 
+  const [openDrawer, setOpenDrawer] = useState(true)
+
+  let drawerStyle = {}
+  let mainStyle = {
+    'width': 800
+  }
+
+  const onOpenDrawer = e => {
+    setOpenDrawer(!openDrawer)
+  }
+
+  if (!openDrawer) {
+    drawerStyle = {
+      width: 0
+    }
+    mainStyle = {
+      transitionDuration: '0.5s',
+      width: window.innerWidth
+
+    }
+  } else {
+    drawerStyle = {
+      width: 0
+    }
+    mainStyle = {
+      width: 800,
+      transitionDuration: '0.5s'
+    }
+  }
+
   return (
     <React.Fragment>
       <CssBaseline />
-      <Topbar currentPath={currentPath} />
-      <div className={classes.root}>
+      <Topbar onDrawerButtonClick={onOpenDrawer} currentPath={currentPath} />
+      <Grid container alignItems="center" justify="center">
+      <Drawer style={drawerStyle} open={openDrawer}/>
+      <div style={mainStyle} className={classes.root}>
         <Grid container justify="center" >
           <Grid spacing={24} alignItems="center" justify="center" container className={classes.grid}>
             <Grid item xs={12}>
@@ -449,6 +481,8 @@ const UserDashboard = (props) => {
           </Grid>
         </Grid>
       </div>
+      </Grid>
+      
     </React.Fragment>
   );
 

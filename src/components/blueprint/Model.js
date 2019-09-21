@@ -57,6 +57,7 @@ const Model = (props) => {
     const classes = useStyles()
     const { data, Card, Paper } = props
     const [detail, setDetail] = useState(false)
+    const [closing, setClosing] = useState(false)
     const [showCard, setShowCard] = useState(true)
     const [modalEnd, setModelEnd] = useState(false)
     const [position, setPostion] = useState([0, 0, 0, 0])
@@ -81,9 +82,11 @@ const Model = (props) => {
             setDetail(true)
             setShowCard(false)
             setModelEnd(false)
+            setClosing(false)
         }
         else {
             setModelEnd(false)
+            setClosing(true)
             let cardTimerId = setInterval(() => {
                 setShowCard(true)
                 clearInterval(cardTimerId)
@@ -133,7 +136,7 @@ const Model = (props) => {
             onClose={showDetail}
             BackdropComponent={Backdrop}
             BackdropProps={{
-                closing: showCard,
+                closing: closing,
                 transitionDuration: DURATION * 1000,
             }}
             disableAutoFocus

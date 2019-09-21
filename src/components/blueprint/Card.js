@@ -69,7 +69,7 @@ const _Card = (props) => {
     }, [])
 
     const handleClick = (e) => {
-        if (!e.target.className.includes('MuiButton')) {
+        if (e.target && typeof e.target.className === 'string' && !e.target.className.includes('MuiButton')) {
             if (onClick)
                 onClick(e)
         }
@@ -119,9 +119,6 @@ const _Card = (props) => {
                 <div>
                     <Button size="small" color="primary" disabled={ data.status !== 'UNSIGNED' }>
                         { data.status === 'UNSTARTED' ? '未开始' : data.status === 'SIGNED' ? '已签到' : '签到' }
-                    </Button>
-                    <Button size="small" color="primary" onClick={e => {console.log('Click!!!')}}>
-                        查看详情
                     </Button>
                 </div>
             </CardActions>

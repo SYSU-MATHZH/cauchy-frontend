@@ -14,6 +14,9 @@ const theme = createMuiTheme({
     },
     primary: {
       main: indigo[700]
+    },
+    background: {
+      main: "rgba(0, 0, 0, 0.87)"
     }
   },
   typography: {

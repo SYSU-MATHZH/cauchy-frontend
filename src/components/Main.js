@@ -10,6 +10,7 @@ import InstructionDialog from './dialogs/InstructionDialog';
 import SwipeDialog from './dialogs/SwipeDialog';
 
 import Topbar from './Topbar';
+//import Topbar from './layout/TopBar'
 
 const backgroundShape = require('../images/shape.svg');
 
