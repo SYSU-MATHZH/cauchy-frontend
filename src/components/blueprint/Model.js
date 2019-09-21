@@ -4,18 +4,14 @@ import { red } from '@material-ui/core/colors';
 import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
+// import Backdrop from '@material-ui/core/Backdrop';
+import Backdrop from '../others/BackDrop'
 import Fade from '@material-ui/core/Fade';
 import Slide from '@material-ui/core/Slide';
 
 import { parseDate } from '../../utils';
 
 const useStyles = makeStyles(theme => ({
-    modal: {
-        outline: 0,
-        top: "10%",
-        left: "10%"
-    },
     card: {
       maxWidth: 345,
     },
@@ -57,10 +53,11 @@ const useStyles = makeStyles(theme => ({
   }));
 
 const Model = (props) => {
-    const DURATION = 0.3
+    const DURATION = 0.4
     const classes = useStyles()
     const { data, Card, Paper } = props
     const [detail, setDetail] = useState(false)
+    const [showCard, setShowCard] = useState(true)
     const [modalEnd, setModelEnd] = useState(false)
     const [position, setPostion] = useState([0, 0, 0, 0])
     const [modalPosition, setModalPosition] = useState([0, 0, 0, 0])
@@ -82,10 +79,16 @@ const Model = (props) => {
         console.log(position)
         if (!detail) {
             setDetail(true)
+            setShowCard(false)
             setModelEnd(false)
         }
         else {
             setModelEnd(false)
+            let cardTimerId = setInterval(() => {
+                setShowCard(true)
+                clearInterval(cardTimerId)
+            }, 0.5 * DURATION * 1000)
+            
             let timerId = setInterval(() => {
                 setDetail(false)
                 clearInterval(timerId)
@@ -130,6 +133,7 @@ const Model = (props) => {
             onClose={showDetail}
             BackdropComponent={Backdrop}
             BackdropProps={{
+                closing: showCard,
                 transitionDuration: DURATION * 1000,
             }}
             disableAutoFocus
@@ -142,7 +146,10 @@ const Model = (props) => {
             </Fade>
             </div>
         </Modal>
-        <Fade in={!detail}>
+        <Fade in={showCard} timeout={{
+            enter: 1 * DURATION * 1000,
+            exit: 0.3 * DURATION * 1000
+        }}>
             <div ref={cardRef}>
                 { card }
             </div>

@@ -26,7 +26,8 @@ const useStyles = makeStyles(theme => ({
         justifyContent: 'center',
     },
     card: {
-      minWidth: 345,
+      minWidth: 235,
+      border: '1px solid #e0e0e0'
     },
     header: {
         '& span': {
@@ -79,7 +80,7 @@ const _Card = (props) => {
         <Card ref={cardRef} className={classes.card}
             elevation={elevation}
             onClick={handleClick}
-            onMouseOver={e => {setElevation(3)}}
+            onMouseOver={e => {setElevation(2)}}
             onMouseOut={e => {setElevation(0)}}
         >
             <CardHeader

@@ -161,7 +161,7 @@ const UserActivity = props => {
   const ActivityCard = activity => {
     return (
       <Grid item xs={4}>
-        <Model classes={ classes } data={activity} Card={Card} Paper={Card}/>
+        <Model classes={classes} data={activity} Card={Card} Paper={Card}/>
       </Grid>
     )
   }
