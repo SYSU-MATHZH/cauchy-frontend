@@ -44,11 +44,12 @@ const styles = theme => ({
     paddingBottom: 200
   },
   grid: {
-    width: 1200,
+    width: '100%',
     padding: theme.spacing(3),
     [theme.breakpoints.down('sm')]: {
-      width: 'calc(100% - 20px)'
-    }
+      width: 'calc(100% - 20px)',
+      padding: 0
+    },
   },
   loadingState: {
     opacity: 0.05
@@ -80,18 +81,21 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
+    width: '100%',
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    marginLeft: -drawerWidth,
+    marginLeft: 0,
   },
   contentShift: {
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
-    marginLeft: 0,
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: drawerWidth,
+    }
   },
   outlinedButtom: {
     textTransform: 'uppercase',
@@ -220,26 +224,23 @@ const UserDashboard = (props) => {
   const currentPath = props.location.pathname
 
   const [openDrawer, setOpenDrawer] = useState(true)
-
-  let drawerStyle = {}
-  let mainStyle = {
-    'width': 800
-  }
+  const [openDrawerMobile, setOpenDrawerMobile] = useState(false)
 
   const onOpenDrawer = e => {
     setOpenDrawer(!openDrawer)
   }
 
-  if (!openDrawer) {
-  } else {
+  const onOpenDrawerMobile = e => {
+    setOpenDrawerMobile(!openDrawerMobile)
   }
+
 
   return (
     <React.Fragment>
       <CssBaseline />
-      <Topbar onDrawerButtonClick={onOpenDrawer} currentPath={currentPath} />
+      <Topbar onDrawerButtonClick={onOpenDrawer} onDrawerButtonClickMobile={onOpenDrawerMobile} currentPath={currentPath} />
       <Grid className={classes.root} container alignItems="center" justify="center">
-        <Drawer open={openDrawer}/>
+        <Drawer open={openDrawer} openMobile={openDrawerMobile} onMobileClose={onOpenDrawerMobile}/>
       <div className={clsx(classes.content, {
           [classes.contentShift]: openDrawer,
         })}>

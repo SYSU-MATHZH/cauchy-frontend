@@ -16,7 +16,10 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Hidden from '@material-ui/core/Hidden'
+
 import UserButton from '../buttons/UserButton';
+
 
 function ElevationScroll(props) {
     const { children, window } = props;
@@ -62,7 +65,7 @@ const useStyles = makeStyles(theme => ({
     marginLeft: 0,
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(3),
+      marginLeft: theme.spacing(15),
       width: 'auto',
     },
   },
@@ -110,7 +113,7 @@ export default function PrimarySearchAppBar(props) {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const { onDrawerButtonClick } = props
+  const { onDrawerButtonClick, onDrawerButtonClickMobile } = props
 
   function handleProfileMenuOpen(event) {
     setAnchorEl(event.currentTarget);
@@ -186,10 +189,18 @@ export default function PrimarySearchAppBar(props) {
     </Menu>
   );
 
-  const handleDrawerButtonClick = e => {
-      if (onDrawerButtonClick) {
-          onDrawerButtonClick(e)
+  const handleDrawerButtonClick = mobile => e => {
+      if (mobile) {
+        if (onDrawerButtonClickMobile) {
+            onDrawerButtonClickMobile(e)
+        }
       }
+      else {
+        if (onDrawerButtonClick) {
+            onDrawerButtonClick(e)
+        }
+      }
+
   }
 
   return (
@@ -198,15 +209,30 @@ export default function PrimarySearchAppBar(props) {
       <ElevationScroll {...props}>
       <AppBar className={classes.appBar} color={"default"}>
         <Toolbar>
+          <Hidden smUp implementation="css">
+          {/* 移动端侧边栏按钮 */}
           <IconButton
             edge="start"
             className={classes.menuButton}
             color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerButtonClick}
+            aria-label="打开侧边栏"
+            onClick={handleDrawerButtonClick(true)}
           >
             <MenuIcon />
           </IconButton>
+          </Hidden>
+          
+          <Hidden xsDown implementation="css">
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="打开侧边栏"
+            onClick={handleDrawerButtonClick(false)}
+          >
+            <MenuIcon />
+          </IconButton>
+          </Hidden>
           <Typography className={classes.title} variant="h6" noWrap>
             数院活动
           </Typography>
@@ -215,7 +241,6 @@ export default function PrimarySearchAppBar(props) {
               backgroundColor: "#e5e5e5",
               height: 40,
               width: 400,
-              marginLeft: 100
             }}
             className={classes.search}
             >
