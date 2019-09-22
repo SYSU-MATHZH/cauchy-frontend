@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'
 
+import { withRouter, Link } from 'react-router-dom';
+
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import IconButton from '@material-ui/core/IconButton';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
-import useGlobal from '../../store'
+import { useGlobal } from '../../store'
 
-const UserButton = () => {
+const UserButton = (props) => {
     const [global, actions] = useGlobal()
     const { user } = global
 
@@ -22,17 +24,17 @@ const UserButton = () => {
       setAnchorEl(null);
     }
 
-    const logout = async () => {
-        await actions.user.logout()
+    const logout = () => {
+        actions.user.logout()
     }
 
     useEffect(() => {
         if (user.status === 'AUTHED')
-            actions.user.user('GET', user.url)
+          actions.user.user('GET', user.url)
     }, [])
 
     if (user.status === 'UNAUTHED')
-        return <></>
+      return <></>
 
     return (
         <div>
@@ -67,4 +69,4 @@ const UserButton = () => {
     )
 }
 
-export default UserButton
+export default withRouter(UserButton)

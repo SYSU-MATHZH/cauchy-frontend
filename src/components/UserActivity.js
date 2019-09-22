@@ -21,7 +21,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Card from './blueprint/Card';
 import Model from './blueprint/Model';
 
-import useGlobal from '../store';
+import { useGlobal } from '../store';
 import { parseDate } from '../utils';
 
 const backgroundShape = require('../images/shape.svg');

@@ -140,4 +140,4 @@ const initialState = {
 
 const useGlobal = useGlobalHook(React, initialState, actions);
 
-export default useGlobal;
+export { useGlobal };

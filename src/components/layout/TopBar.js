@@ -1,5 +1,6 @@
 import React from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
+import { withRouter, Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -105,7 +106,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function PrimarySearchAppBar(props) {
+const PrimarySearchAppBar = props => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -113,7 +114,7 @@ export default function PrimarySearchAppBar(props) {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const { onDrawerButtonClick, onDrawerButtonClickMobile } = props
+  const { title, onDrawerButtonClick, onDrawerButtonClickMobile } = props
 
   function handleProfileMenuOpen(event) {
     setAnchorEl(event.currentTarget);
@@ -175,16 +176,9 @@ export default function PrimarySearchAppBar(props) {
         </IconButton>
         <p>Notifications</p>
       </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
+      <MenuItem>
+        <UserButton/>
+        <p>账户</p>
       </MenuItem>
     </Menu>
   );
@@ -234,7 +228,7 @@ export default function PrimarySearchAppBar(props) {
           </IconButton>
           </Hidden>
           <Typography className={classes.title} variant="h6" noWrap>
-            数院活动
+            { title }
           </Typography>
           <div
             style={{
@@ -251,9 +245,7 @@ export default function PrimarySearchAppBar(props) {
               placeholder="搜索"
               classes={{
                 root: classes.inputRoot,
-                input: classes.inputInput,
-                height: '100%',
-                width: '100%'
+                input: classes.inputInput
               }}
               inputProps={{ 'aria-label': 'search' }}
             />
@@ -302,3 +294,5 @@ export default function PrimarySearchAppBar(props) {
     </div>
   );
 }
+
+export default withRouter(PrimarySearchAppBar)

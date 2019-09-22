@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { Link, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -58,7 +59,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function ResponsiveDrawer(props) {
-  const { container, open, openMobile, onMobileClose } = props;
+  const { container, open, openMobile, onMobileClose, currentPath, paths } = props;
   const classes = useStyles();
   const theme = useTheme();
 
@@ -71,23 +72,19 @@ function ResponsiveDrawer(props) {
   const drawer = (
     <div>
       <div className={classes.toolbar} />
-      <List>
-        {['首页', '我的活动', '我的申请', '我的申诉'].map((text, index) => (
-          <ListItem button key={text}>
+      {paths.map((list, index) => (
+        <>
+        <List>
+          {list.map((item, index) => (
+            <ListItem button key={item.name} component={Link} to={{pathname: item.pathname, search: props.location.search}} selected={currentPath === item.pathname}>
             <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['活动管理', '申请及申诉管理', '学生管理'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
+            <ListItemText primary={item.name} />
+            </ListItem>
+          ))}
+        </List>
+        { index + 1 === paths.length ? <></> : <Divider/> }
+        </>
+      ))}
     </div>
   );
 
@@ -128,4 +125,4 @@ function ResponsiveDrawer(props) {
   );
 }
 
-export default ResponsiveDrawer;
+export default withRouter(ResponsiveDrawer);

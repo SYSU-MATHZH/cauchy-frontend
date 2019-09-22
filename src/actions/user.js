@@ -78,24 +78,19 @@ export const login = async (store, username, password, remember=false) => {
     }
 }
 
-export const logout = async store => {
-    try {
-        const res = await fetch(store.state.user.url + '/logout', {
+export const logout = store => {
+    fetch(store.state.user.url + '/logout', {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json;charset=UTF-8',
                 'Authorization': 'Token ' + store.state.user.token
             }
-        });
-    } catch (error) {
-
-    } finally {
-        const user = { ...store.state.user, status: 'UNAUTHED', token: null };
-        const message = `已登出`
-        localStorage.removeItem('user')
-        store.setState({ message: [...store.state.message, message], user });
-    }
+    })
+    const user = { ...store.state.user, status: 'UNAUTHED', token: null };
+    const message = `已登出`
+    localStorage.removeItem('user')
+    store.setState({ message: [...store.state.message, message], user });
 }
 
 export const user = async (store, action, url, data={}) => {

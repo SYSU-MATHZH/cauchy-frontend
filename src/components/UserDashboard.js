@@ -19,11 +19,9 @@ import TableRow from '@material-ui/core/TableRow';
 
 import PageContainer from './layout/PageContainer'
 
-import useGlobal from '../store';
+import { useGlobal } from '../store';
 import { parseDate, parseSchoolYear, isInThisSchoolYear } from '../utils';
 
-
-const drawerWidth = 240
 
 const styles = theme => ({
   loadingState: {

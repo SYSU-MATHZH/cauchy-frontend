@@ -5,7 +5,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
-import useGlobal from '../store'
+import { useGlobal } from '../store'
 
 const useStyles = makeStyles(theme => ({
     close: {

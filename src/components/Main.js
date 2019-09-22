@@ -11,6 +11,7 @@ import SwipeDialog from './dialogs/SwipeDialog';
 
 import Topbar from './Topbar';
 //import Topbar from './layout/TopBar'
+import PageContainer from './layout/PageContainer'
 
 const backgroundShape = require('../images/shape.svg');
 
@@ -120,11 +121,7 @@ class Main extends Component {
     const { classes } = this.props;
     return (
       <React.Fragment>
-        <CssBaseline />
-        <Topbar />
-        <div className={classes.root}>
-          <Grid container justify="center">
-            <Grid spacing={4} alignItems="center" justify="center" container className={classes.grid}>
+        <PageContainer>
               <Grid item xs={12} md={4}>
                 <Paper className={classes.paper}>
                   <div className={classes.box}>
@@ -200,8 +197,7 @@ class Main extends Component {
                     </Paper>
                 </Grid>
               </Grid>
-            </Grid>
-          </Grid>
+          </PageContainer>
           <SwipeDialog
             open={this.state.learnMoredialog}
             onClose={this.dialogClose} />
@@ -209,7 +205,6 @@ class Main extends Component {
             open={this.state.getStartedDialog}
             onClose={this.closeGetStartedDialog}
           />
-        </div>
       </React.Fragment>
     )
   }

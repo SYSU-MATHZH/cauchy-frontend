@@ -9,9 +9,10 @@ import Signup from './components/Signup'
 import SignIn from './components/SignIn'
 import ScrollToTop from './components/ScrollTop'
 
-import useGlobal from './store'
+import { useGlobal } from './store'
 import UserDashboard from './components/UserDashboard';
 import UserActivity from './components/UserActivity';
+import BlankPage from './components/BlankPage'
 
 const PrivateRoute = ({ match, component: Component, ...rest }) => {
   const [globalState, globalActions] = useGlobal();
@@ -40,11 +41,15 @@ export default props => (
           <PrivateRoute exact path='/' component={ Main } />
           <Route exact path='/signin' component={ SignIn }/>
           <PrivateRoute exact path='/user-dashboard' component={ UserDashboard } />
+          <PrivateRoute exact path='/user-application' component={ BlankPage } />
+          <PrivateRoute exact path='/user-appeal' component={ BlankPage } />
+          <PrivateRoute exact path='/dashboard' component={ BlankPage } />
+          <PrivateRoute exact path='/app' component={ BlankPage } />
+          <PrivateRoute exact path='/student' component={ BlankPage } />
           <PrivateRoute exact path='/user-activity' component={ UserActivity } />
-          <PrivateRoute exact path='/dashboard' component={ Dashboard } />
           <Route exact path='/signup' component={ Signup } />
           <Route exact path='/wizard' component={ Wizard } />
-          <Route exact path='/cards' component={ Cards } />
+          <PrivateRoute exact path='/cards' component={ Cards } />
         </Switch>
       </ScrollToTop>
     </HashRouter>

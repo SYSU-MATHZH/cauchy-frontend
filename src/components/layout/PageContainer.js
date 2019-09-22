@@ -15,7 +15,8 @@ const styles = theme => ({
     flexGrow: 1,
     overflow: 'hidden',
     backgroundColor: "#ffffff",
-    paddingBottom: 200
+    paddingBottom: 200,
+    height: '100%'
   },
   grid: {
     width: '100%',
@@ -62,13 +63,59 @@ const PageContainer = (props) => {
     setOpenDrawerMobile(!openDrawerMobile)
   }
 
+  const paths = [
+    [
+      {
+        'pathname': '/',
+        'name': '首页',
+        'title': '数院活动'
+      }, {
+        'pathname': '/user-dashboard',
+        'name': '我的活动',
+        'title': '我的活动'
+      }, {
+        'pathname': '/user-application',
+        'name': '我的申请',
+        'title': '我的申请'
+      }, {
+        'pathname': '/user-appeal',
+        'name': '我的申诉',
+        'title': '我的申诉'
+      }
+    ], [
+      {
+        'pathname': '/dashboard',
+        'name': '活动管理',
+        'title': '活动管理'
+      }, {
+        'pathname': '/app',
+        'name': '申请及申诉管理',
+        'title': '申请及申诉管理'
+      }, {
+        'pathname': '/student',
+        'name': '学生管理',
+        'title': '学生管理'
+      }
+    ]
+  ]
+
+  const current = () => {
+    let currentItem = null
+    paths.forEach(list => {
+      list.forEach(item => {
+        if (item.pathname === currentPath)
+          currentItem = item
+      })
+    })
+    return currentItem
+  }
 
   return (
     <React.Fragment>
       <CssBaseline />
-      <Topbar onDrawerButtonClick={onOpenDrawer} onDrawerButtonClickMobile={onOpenDrawerMobile} currentPath={currentPath} />
+      <Topbar title={current().title} onDrawerButtonClick={onOpenDrawer} onDrawerButtonClickMobile={onOpenDrawerMobile} currentPath={currentPath} />
       <Grid className={classes.root} container alignItems="center" justify="center">
-        <Drawer open={openDrawer} openMobile={openDrawerMobile} onMobileClose={onOpenDrawerMobile}/>
+        <Drawer paths={paths} currentPath={currentPath} open={openDrawer} openMobile={openDrawerMobile} onMobileClose={onOpenDrawerMobile}/>
       <div className={clsx(classes.content, {
           [classes.contentShift]: openDrawer,
         })}>

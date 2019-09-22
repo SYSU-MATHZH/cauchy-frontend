@@ -8,6 +8,10 @@ import { blue, indigo } from '@material-ui/core/colors'
 import GlobalMessage from './components/GlobalMessage'
 
 const theme = createMuiTheme({
+  root: {
+    backgroundColor: '#ffffff',
+    height: "100%"
+  },
   palette: {
     secondary: {
       main: blue[900]
@@ -15,9 +19,6 @@ const theme = createMuiTheme({
     primary: {
       main: indigo[700]
     },
-    background: {
-      main: "rgba(0, 0, 0, 0.87)"
-    }
   },
   typography: {
     // Use the system font instead of the default Roboto font.
