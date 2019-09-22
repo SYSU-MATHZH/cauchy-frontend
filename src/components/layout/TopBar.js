@@ -207,7 +207,7 @@ export default function PrimarySearchAppBar(props) {
     <div className={classes.grow}>
       <CssBaseline />
       <ElevationScroll {...props}>
-      <AppBar className={classes.appBar} color={"default"}>
+      <AppBar className={classes.appBar} color={"white"}>
         <Toolbar>
           <Hidden smUp implementation="css">
           {/* 移动端侧边栏按钮 */}

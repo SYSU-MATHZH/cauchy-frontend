@@ -1,17 +1,10 @@
 import React, { Component, useState, useEffect } from 'react';
-import clsx from 'clsx';
 import withStyles from '@material-ui/styles/withStyles';
 import { withRouter, Link } from 'react-router-dom';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Slider from '@material-ui/lab/Slider';
 import Button from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar';
-import SimpleLineChart from './SimpleLineChart';
-import Months from './common/Months';
-import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import Loading from './common/Loading';
 
 import Menu from '@material-ui/core/Menu';
@@ -23,34 +16,16 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Topbar from './layout/TopBar'
-//import Topbar from './Topbar';
-import Drawer from './layout/Drawer'
+
+import PageContainer from './layout/PageContainer'
+
 import useGlobal from '../store';
 import { parseDate, parseSchoolYear, isInThisSchoolYear } from '../utils';
 
-const numeral = require('numeral');
-numeral.defaultFormat('0,000');
-
-const backgroundShape = require('../images/shape.svg');
 
 const drawerWidth = 240
 
 const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    overflow: 'hidden',
-    backgroundColor: "#f5f5f5",
-    paddingBottom: 200
-  },
-  grid: {
-    width: '100%',
-    padding: theme.spacing(3),
-    [theme.breakpoints.down('sm')]: {
-      width: 'calc(100% - 20px)',
-      padding: 0
-    },
-  },
   loadingState: {
     opacity: 0.05
   },
@@ -69,33 +44,6 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'space-around',
     paddingTop: theme.spacing(2)
-  },
-  topBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: "#adfafdf"
-  },
-  drawer: {
-    display: 'block',
-    width: drawerWidth,
-    flexShrink: 0,
-  },
-  content: {
-    flexGrow: 1,
-    width: '100%',
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: 0,
-  },
-  contentShift: {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: drawerWidth,
-    }
   },
   outlinedButtom: {
     textTransform: 'uppercase',
@@ -223,29 +171,9 @@ const UserDashboard = (props) => {
   const { classes } = props;
   const currentPath = props.location.pathname
 
-  const [openDrawer, setOpenDrawer] = useState(true)
-  const [openDrawerMobile, setOpenDrawerMobile] = useState(false)
-
-  const onOpenDrawer = e => {
-    setOpenDrawer(!openDrawer)
-  }
-
-  const onOpenDrawerMobile = e => {
-    setOpenDrawerMobile(!openDrawerMobile)
-  }
-
-
   return (
     <React.Fragment>
-      <CssBaseline />
-      <Topbar onDrawerButtonClick={onOpenDrawer} onDrawerButtonClickMobile={onOpenDrawerMobile} currentPath={currentPath} />
-      <Grid className={classes.root} container alignItems="center" justify="center">
-        <Drawer open={openDrawer} openMobile={openDrawerMobile} onMobileClose={onOpenDrawerMobile}/>
-      <div className={clsx(classes.content, {
-          [classes.contentShift]: openDrawer,
-        })}>
-        <Grid container justify="center" >
-          <Grid className={classes.grid} spacing={24} alignItems="center" justify="center" container>
+      <PageContainer>
             <Grid item xs={12}>
               <div className={classes.topBar}>
                 <div className={classes.block}>
@@ -482,11 +410,7 @@ const UserDashboard = (props) => {
                 </Paper>
               </Grid>
             </Grid>
-          </Grid>
-        </Grid>
-      </div>
-      </Grid>
-      
+      </PageContainer>
     </React.Fragment>
   );
 
