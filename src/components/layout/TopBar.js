@@ -50,24 +50,26 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2),
   },
   title: {
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block',
-    },
+    display: 'block',
   },
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '100%',
+    // backgroundColor: fade(theme.palette.common.white, 0.15),
+    // '&:hover': {
+    //   backgroundColor: fade(theme.palette.common.white, 0.25),
+    // },
+    // marginRight: theme.spacing(2),
+    // marginLeft: 0,
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(15),
-      width: 'auto',
+    },
+    backgroundColor: "#e5e5e5",
+    height: 40,
+    width: 400,
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
     },
   },
   searchIcon: {
@@ -230,12 +232,8 @@ const PrimarySearchAppBar = props => {
           <Typography className={classes.title} variant="h6" noWrap>
             { title }
           </Typography>
+          <Hidden xsDown implementation="css">
           <div
-            style={{
-              backgroundColor: "#e5e5e5",
-              height: 40,
-              width: 400,
-            }}
             className={classes.search}
             >
             <div className={classes.searchIcon}>
@@ -250,6 +248,7 @@ const PrimarySearchAppBar = props => {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
+          </Hidden>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 4 new mails" color="inherit">
@@ -275,6 +274,9 @@ const PrimarySearchAppBar = props => {
             <UserButton/>
           </div>
           <div className={classes.sectionMobile}>
+            <IconButton aria-label="搜索" color="inherit">
+              <SearchIcon />
+            </IconButton>
             <IconButton
               aria-label="show more"
               aria-controls={mobileMenuId}
