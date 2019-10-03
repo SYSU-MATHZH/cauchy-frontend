@@ -7,10 +7,10 @@ let user = {
     url: null,
     username: null,
     token: null,
-    status: 'UNAUTHED',
+    status: 'AUTHED',
     activities: [
         {
-            date: new Date("2019.6.11"),
+            date: new Date("2019/6/11"),
             name: "海边捡垃圾",
             group: "16级应数班",
             description: "一个学术讲座",
@@ -18,7 +18,7 @@ let user = {
             status: "FINISHED",
             amount: 10
         }, {
-            date: new Date("2019.6.10"),
+            date: new Date("2019/6/10"),
             name: "山上捡垃圾",
             group: "16级应数班",
             description: "一个学术讲座",
@@ -26,7 +26,7 @@ let user = {
             status: "FINISHED",
             amount: 5
         }, {
-            date: new Date("2019.6.9"),
+            date: new Date("2019/6/9"),
             name: "学术讲座",
             group: "中珠数院",
             description: "一个学术讲座",
@@ -34,7 +34,7 @@ let user = {
             status: "FINISHED",
             amount: 8
         }, {
-            date: new Date("2019.6.8"),
+            date: new Date("2019/6/8"),
             name: "海边捡垃圾",
             group: "16级应数班",
             description: "一个学术讲座",
@@ -42,7 +42,7 @@ let user = {
             status: "FINISHED",
             amount: 2
         }, {
-            date: new Date("2019.6.7"),
+            date: new Date("2019/6/7"),
             name: "课外实践",
             group: "16级应数班",
             description: "一个学术讲座",
@@ -53,14 +53,14 @@ let user = {
     ],
     pendingActivities: [
         {
-            date: new Date("2019.8.14"),
+            date: new Date("2019/8/14"),
             name: "海边捡垃圾",
             group: "16级应数班",
             type: "公益时",
             status: "PENDING",
             amount: 10
         }, {
-            date: new Date("2019.8.15"),
+            date: new Date("2019/8/15"),
             name: "山上捡垃圾",
             group: "16级应数班",
             type: "公益时",
@@ -75,7 +75,8 @@ let user = {
             group: "16级应数班",
             type: "第二课堂",
             status: "UNSIGNED",
-            date: new Date("2019.8.26"),
+            date: new Date("2019/8/26"),
+            place: "F307",
             amount: null
         }, {
             name: "捡垃圾",
@@ -83,7 +84,8 @@ let user = {
             group: "16级应数班",
             type: "公益时",
             status: "SIGNED",
-            date: new Date("2019.8.26"),
+            date: new Date("2019/8/26"),
+            place: "美丽湾",
             amount: null
         }
     ],
@@ -94,13 +96,13 @@ let user = {
             group: "16级应数班",
             type: "公益时",
             status: "UNSTARTED",
-            date: new Date("2019.8.27"),
+            date: new Date("2019/8/27"),
             amount: null
         }
     ],
     pendingApplications: [
         {
-            date: new Date("2019.8.14")
+            date: new Date("2019/8/14")
         }
     ],
     pendingAppeals: [
@@ -122,18 +124,18 @@ const initialState = {
     activities: {},
     years: [
         {
-            begin: new Date("2019.8.25"),
-            end: new Date("2020.8.31")
+            begin: new Date("2019/8/25"),
+            end: new Date("2020/8/31")
         },
         {
-            begin: new Date("2018.9.1"),
-            end: new Date("2019.8.24")
+            begin: new Date("2018/9/1"),
+            end: new Date("2019/8/24")
         }, {
-            begin: new Date("2017.9.1"),
-            end: new Date("2018.8.31")
+            begin: new Date("2017/9/1"),
+            end: new Date("2018/8/31")
         }, {
-            begin: new Date("2016.9.1"),
-            end: new Date("2017.8.31")
+            begin: new Date("2016/9/1"),
+            end: new Date("2017/8/31")
         }
     ]
 };

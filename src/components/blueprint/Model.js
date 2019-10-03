@@ -55,7 +55,7 @@ const useStyles = makeStyles(theme => ({
 const Model = (props) => {
     const DURATION = 0.3
     const classes = useStyles()
-    const { data, Card, Paper } = props
+    const { data, Card, Paper, onDataChange } = props
     const [detail, setDetail] = useState(false)
     const [closing, setClosing] = useState(false)
     const [showCard, setShowCard] = useState(true)
@@ -70,14 +70,13 @@ const Model = (props) => {
         }
     }, [detail])
 
-    const onPaperMount = node => {
+    const onPaperMount = (node, width) => {
         const rect = node.getBoundingClientRect()
-        setModalPosition([(window.innerHeight - rect.height * 2) / 2, (window.innerWidth - rect.width * 2) / 2, rect.width * 2, rect.height * 2])
+        setModalPosition([0.2 * window.innerHeight, Math.max((window.innerWidth - width) / 2, 0), Math.min(width, window.innerWidth), 600])
         setModelEnd(true)
     }
 
     const showDetail = (e) => {
-        console.log(position)
         if (!detail) {
             setDetail(true)
             setShowCard(false)
@@ -99,12 +98,19 @@ const Model = (props) => {
         }
     }
 
+    const handleDataChange = (data) => {
+        let newData = {...data}
+        if (onDataChange) {
+            onDataChange(newData)
+        }
+    }
+
     const card = (
         <Card onClick={showDetail} data={data}/>
     )
 
-    const paper = (
-        <Paper data={data} onMount={onPaperMount}/>
+    const paper = style => (
+        <Paper style={style} data={data} onDataChange={handleDataChange} onMount={onPaperMount} onClose={showDetail}/>
     )
 
 
@@ -144,7 +150,7 @@ const Model = (props) => {
             <div style={{outline: 0}}>
             <Fade in={detail}>
                 <div>
-                    { paper }
+                    { paper({}) }
                 </div>
             </Fade>
             </div>

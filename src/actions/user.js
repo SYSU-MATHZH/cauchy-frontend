@@ -169,3 +169,10 @@ export const user = async (store, action, url, data={}) => {
         store.setState({ status, message: [...mq, message] });
     }
 }
+
+export const updateUFA = async (store, id, data) => {
+    let user = { ...store.state.user }
+    console.log(`Updated ${id}`)
+    user.unfinishedActivities[id] = { ...data }
+    store.setState({user: user})
+}

@@ -11,11 +11,21 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import { red } from '@material-ui/core/colors';
+import ChildCare from '@material-ui/icons/ChildCare'
+import Explore from '@material-ui/icons/Explore'
+import Check from '@material-ui/icons/CheckOutlined'
+import Beenhere from '@material-ui/icons/Beenhere'
+import DoneIcon from '@material-ui/icons/Done';
+import Schedule from '@material-ui/icons/Schedule'
+import LocationOn from '@material-ui/icons/LocationOn'
+import { red, grey } from '@material-ui/core/colors';
 import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import Modal from '@material-ui/core/Modal';
 import Fade from '@material-ui/core/Fade';
+import Tooltip from '@material-ui/core/Tooltip';
+
+import Show from '../common/Show'
 
 import { parseDate } from '../../utils';
 
@@ -26,8 +36,11 @@ const useStyles = makeStyles(theme => ({
         justifyContent: 'center',
     },
     card: {
-      minWidth: 235,
-      border: '1px solid #e0e0e0'
+        width: window.innerWidth - 2 * theme.spacing(3),
+        [theme.breakpoints.up('sm')]: {
+            width: 265
+        },
+        border: '1px solid #e0e0e0'
     },
     header: {
         '& span': {
@@ -38,14 +51,10 @@ const useStyles = makeStyles(theme => ({
         }
     },
     chip: {
-        marginLeft: 5,
-        height: 18,
+        height: 20,
         '& span': {
             fontSize: 12,
         }
-    },
-    content: {
-        marginTop: -16,
     },
     media: {
       height: 0,
@@ -54,6 +63,34 @@ const useStyles = makeStyles(theme => ({
     avatar: {
         backgroundColor: red[500],
     },
+    title: {
+
+    },
+    tagArea: {
+        paddingTop: 3,
+        paddingBottom: 3
+    },
+    tag: {
+        paddingRight: theme.spacing(0.5),
+        paddingBottom: theme.spacing(0.5)
+    },
+    actionArea: {
+        justifyContent: 'space-between',
+        height: 40,
+        paddingLeft: 16,
+        paddingRight: 16,
+        paddingBottom: 6,
+    },
+    action: {
+        paddingRight: theme.spacing(2)
+    },
+    iconHover: {
+        color: grey[700],
+        fontSize: 20,
+        '&:hover': {
+          color: grey[900],
+        },
+      },
   }));
 
 const _Card = (props) => {
@@ -61,6 +98,7 @@ const _Card = (props) => {
     const { data, onClick, onMount } = props
 
     const [elevation, setElevation] = useState(0)
+    const [showActions, setShowActions] = useState(false)
 
     const cardRef = useCallback(node => {
         if (node !== null && onMount) {
@@ -80,47 +118,73 @@ const _Card = (props) => {
         <Card ref={cardRef} className={classes.card}
             elevation={elevation}
             onClick={handleClick}
-            onMouseOver={e => {setElevation(2)}}
-            onMouseOut={e => {setElevation(0)}}
+            onMouseOver={e => {
+                setElevation(2)
+                setShowActions(true)
+            }}
+            onMouseOut={e => {
+                setElevation(0)
+                setShowActions(false)
+            }}
         >
-            <CardHeader
-                className={ classes.header }
-                avatar={
-                    <AccountCircle fontSize="large"/>
-                }
-                action={
-                    <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                    </IconButton>
-                }
-                title={
-                    <Grid container>
-                        { data.group }
-                    </Grid>
-                }
-                subheader={
-                    <>
-                    { parseDate(data.date) }, 岁月湖
-                    </>
-                }
-            />
             <CardContent className={ classes.content }>
-                <Typography gutterBottom>
-                    <Chip size="small" label={ data.type }></Chip>
-                </Typography>
-                <Typography gutterBottom variant="h5" component="h2">
+                <Typography className={ classes.title } gutterBottom variant="h6" component="h2">
                     { data.name }
                 </Typography>
                 <Typography variant="body2" component="p" color="textSecondary">
                     { data.description }
                 </Typography>
             </CardContent>
-            <CardActions>
-                <div>
-                    <Button size="small" color="primary" disabled={ data.status !== 'UNSIGNED' }>
-                        { data.status === 'UNSTARTED' ? '未开始' : data.status === 'SIGNED' ? '已签到' : '签到' }
-                    </Button>
-                </div>
+            <CardContent className={ classes.tagArea }>
+                <Typography>
+                    <Grid container>
+                        <Show show={ data.status !== "UNSIGNED" }>
+                            <Grid item className={classes.tag}>
+                                <Chip className={classes.chip} icon={<DoneIcon style={{color: "white"}}/>} style={{backgroundColor: "#81c784", color: "white"}} size="small" label={ `${parseDate(data.date)} 已签到` }></Chip>
+                            </Grid>
+                        </Show>
+                        <Show show={ data.status === "UNSIGNED" }>
+                            <Grid item className={classes.tag}>
+                                <Chip className={classes.chip} icon={<Schedule style={{color: "white"}}/>} style={{backgroundColor: "#ef5350", color: "white"}} size="small" label={ `${parseDate(data.date)} 未签到` }></Chip>
+                            </Grid>
+                        </Show>
+                        <Grid item className={classes.tag}>
+                            <Chip className={classes.chip} icon={
+                                <LocationOn/>
+                            } size="small" label={ data.place }></Chip>
+                        </Grid>
+                    </Grid>
+                    <Grid container>
+                        <Grid item className={classes.tag}>
+                            <Chip className={classes.chip} icon={
+                                data.type === '第二课堂' ?
+                                <Explore/> :
+                                <ChildCare/>
+                            } size="small" label={ data.type }></Chip>
+                        </Grid>
+                        <Grid item className={classes.tag}>
+                            <Chip className={classes.chip} avatar={<AccountCircle/>} size="small" label={ data.group }></Chip>
+                        </Grid>
+                    </Grid>
+                </Typography>
+            </CardContent>
+            <CardActions className={ classes.actionArea }>
+                <Show show={showActions}>
+                    <Grid container>
+                        <Show show={data.status === "UNSIGNED"}>
+                            <Grid item className={classes.action}>
+                                <Tooltip title="签到" placement="bottom">
+                                    <Check className={classes.iconHover}/>
+                                </Tooltip>
+                            </Grid>
+                        </Show>
+                        <Grid item className={classes.action}>
+                            <Tooltip title="更多" placement="bottom">
+                                <MoreVertIcon className={classes.iconHover}/>
+                            </Tooltip>
+                         </Grid>
+                    </Grid>
+                </Show>
             </CardActions>
         </Card>
         </>

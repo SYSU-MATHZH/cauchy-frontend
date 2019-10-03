@@ -10,7 +10,7 @@ import SignIn from './components/SignIn'
 import ScrollToTop from './components/ScrollTop'
 
 import { useGlobal } from './store'
-import UserDashboard from './components/UserDashboard';
+import UserActivities from './components/UserActivities';
 import UserActivity from './components/UserActivity';
 import BlankPage from './components/BlankPage'
 
@@ -40,7 +40,7 @@ export default props => (
         <Switch>
           <PrivateRoute exact path='/' component={ Main } />
           <Route exact path='/signin' component={ SignIn }/>
-          <PrivateRoute exact path='/user-dashboard' component={ UserDashboard } />
+          <PrivateRoute exact path='/user-dashboard' component={ UserActivities } />
           <PrivateRoute exact path='/user-application' component={ BlankPage } />
           <PrivateRoute exact path='/user-appeal' component={ BlankPage } />
           <PrivateRoute exact path='/dashboard' component={ BlankPage } />
